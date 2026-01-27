@@ -611,12 +611,15 @@ async function loadAllArticles() {
                         </div>
                     </div>
                     <div class="article-actions">
-                        <button class="btn btn-sm btn-secondary" onclick="editArticle(${article.id})">Edit</button>
-                        ${article.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="approveArticle(${article.id})">Approve</button>` : ''}
-                        <button class="btn btn-sm btn-danger" onclick="deleteArticle(${article.id})">Delete</button>
+                        <button class="btn btn-sm btn-secondary article-edit-btn" data-article-id="${article.id}">Edit</button>
+                        ${article.status === 'pending' ? `<button class="btn btn-sm btn-success article-approve-btn" data-article-id="${article.id}">Approve</button>` : ''}
+                        <button class="btn btn-sm btn-danger article-delete-btn" data-article-id="${article.id}">Delete</button>
                     </div>
                 </div>
             `).join('');
+
+            // Attach event listeners using delegation
+            attachArticleListeners(container);
         } else {
             container.innerHTML = '<p>No articles found</p>';
         }
