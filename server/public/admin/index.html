@@ -159,82 +159,78 @@
 
                         <div class="form-group">
                             <label for="body">Article Body *</label>
-                            <div class="form-group">
-                                <label for="body">Article Body *</label>
-                                <div class="editor-toolbar">
-                                    <button type="button" class="editor-btn" onclick="formatText('bold')"
-                                        title="Bold"><b>B</b></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('italic')"
-                                        title="Italic"><i>I</i></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('underline')"
-                                        title="Underline"><u>U</u></button>
-                                    <button type="button" class="editor-btn" onclick="formatText('formatBlock', 'h2')"
-                                        title="Heading 2">H2</button>
-                                    <button type="button" class="editor-btn" onclick="formatText('formatBlock', 'h3')"
-                                        title="Heading 3">H3</button>
-                                    <button type="button" class="editor-btn" onclick="formatText('insertUnorderedList')"
-                                        title="Bullet List">• List</button>
-                                    <button type="button" class="editor-btn" onclick="formatText('insertOrderedList')"
-                                        title="Numbered List">1. List</button>
-                                    <button type="button" class="editor-btn" onclick="insertLink()"
-                                        title="Link">Link</button>
-                                    <button type="button" class="editor-btn" onclick="insertImage()"
-                                        title="Image">Image</button>
-                                    <input type="color" onchange="formatText('foreColor', this.value)"
-                                        title="Text Color"
-                                        style="width:30px; height:30px; padding:0; border:none; vertical-align:middle;">
-                                </div>
-                                <!-- Replaced textarea with contenteditable div for true WYSIWYG -->
-                                <div id="body" class="editor-content" contenteditable="true"
-                                    style="min-height: 400px; border: 1px solid #ddd; padding: 10px; border-radius: 4px; overflow-y: auto;">
-                                </div>
-                                <!-- Hidden input to store value for form submission if needed, though we will read innerHTML directly -->
+                            <div class="editor-toolbar" id="editorToolbar">
+                                <button type="button" class="editor-btn" data-command="bold"
+                                    title="Bold"><b>B</b></button>
+                                <button type="button" class="editor-btn" data-command="italic"
+                                    title="Italic"><i>I</i></button>
+                                <button type="button" class="editor-btn" data-command="underline"
+                                    title="Underline"><u>U</u></button>
+                                <button type="button" class="editor-btn" data-command="formatBlock" data-value="h2"
+                                    title="Heading 2">H2</button>
+                                <button type="button" class="editor-btn" data-command="formatBlock" data-value="h3"
+                                    title="Heading 3">H3</button>
+                                <button type="button" class="editor-btn" data-command="insertUnorderedList"
+                                    title="Bullet List">• List</button>
+                                <button type="button" class="editor-btn" data-command="insertOrderedList"
+                                    title="Numbered List">1. List</button>
+                                <button type="button" class="editor-btn" data-command="createLink"
+                                    title="Insert Link">🔗 Link</button>
+                                <button type="button" class="editor-btn" data-command="insertImage"
+                                    title="Insert Image">🖼️ Image</button>
+                                <input type="color" id="textColor" title="Text Color"
+                                    style="width:35px; height:35px; padding:2px; border:1px solid #ccc; border-radius:4px; vertical-align:middle; cursor:pointer;">
                             </div>
+                            <div id="body" class="editor-content" contenteditable="true"
+                                style="min-height: 400px; border: 1px solid #ddd; padding: 15px; border-radius: 4px; overflow-y: auto; background: white; font-family: Arial, sans-serif; line-height: 1.6;">
+                                <p>Start writing your article here...</p>
+                            </div>
+                        </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="category_id">Category</label>
-                                    <select id="category_id" name="category_id">
-                                        <option value="">Select Category</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <select id="status" name="status">
-                                        <option value="draft">Draft</option>
-                                        <option value="pending">Pending Review</option>
-                                        <option value="published">Publish Now</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="scheduled_publish_at">Schedule Publish (Optional)</label>
-                                    <input type="datetime-local" id="scheduled_publish_at" name="scheduled_publish_at">
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="category_id">Category</label>
+                                <select id="category_id" name="category_id">
+                                    <option value="">Select Category</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="featured_image_url">Featured Image URL</label>
-                                <input type="url" id="featured_image_url" name="featured_image_url">
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="draft">Draft</option>
+                                    <option value="pending">Pending Review</option>
+                                    <option value="published">Publish Now</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="is_breaking" name="is_breaking">
-                                    Breaking News
-                                </label>
-                                <label>
-                                    <input type="checkbox" id="is_featured" name="is_featured">
-                                    Featured Article
-                                </label>
+                                <label for="scheduled_publish_at">Schedule Publish (Optional)</label>
+                                <input type="datetime-local" id="scheduled_publish_at" name="scheduled_publish_at">
                             </div>
+                        </div>
 
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Create Article</button>
-                                <button type="button" class="btn btn-info" onclick="previewArticle()">Preview</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
-                            </div>
+                        <div class="form-group">
+                            <label for="featured_image_url">Featured Image URL</label>
+                            <input type="url" id="featured_image_url" name="featured_image_url">
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="is_breaking" name="is_breaking">
+                                Breaking News
+                            </label>
+                            <label>
+                                <input type="checkbox" id="is_featured" name="is_featured">
+                                Featured Article
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Create Article</button>
+                            <button type="button" class="btn btn-info" onclick="previewArticle()">Preview</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                        </div>
                     </form>
                 </section>
 
@@ -393,6 +389,7 @@
     </div>
 
     <script src="/public/admin/js/admin.js"></script>
+    <script src="/public/admin/js/editor-init.js"></script>
 </body>
 
 </html>
