@@ -971,26 +971,86 @@ function previewArticle() {
     const body = document.getElementById('body').innerHTML;
     const summary = document.getElementById('summary').value;
 
-    const previewWindow = window.open('', 'Article Preview', 'width=800,height=600');
-    previewWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Preview: ${headline}</title>
-            <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; }
-                h1 { color: #D32F2F; }
-                .summary { font-style: italic; color: #666; margin: 20px 0; }
-                .body { line-height: 1.6; }
-            </style>
-        </head>
-        <body>
-            <h1>${headline}</h1>
-            <div class="summary">${summary}</div>
-            <div class="body">${body}</div>
-        </body>
-        </html>
-    `);
-    previewWindow.document.close();
+    if (!headline || !body) {
+        alert('Please add a headline and body content before previewing');
+        return;
+    }
+
+    try {
+        const previewWindow = window.open('', 'ArticlePreview', 'width=800,height=600,scrollbars=yes');
+
+        if (!previewWindow) {
+            alert('Preview blocked by popup blocker. Please allow popups for this site and try again.');
+            return;
+        }
+
+        previewWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Preview: ${headline.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</title>
+                <style>
+                    body { 
+                        font-family: 'Mukta', Arial, sans-serif; 
+                        max-width: 800px; 
+                        margin: 20px auto; 
+                        padding: 20px; 
+                        background: #f5f5f5;
+                    }
+                    .preview-container {
+                        background: white;
+                        padding: 30px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    h1 { 
+                        color: #D32F2F; 
+                        margin-top: 0;
+                        line-height: 1.3;
+                    }
+                    .summary { 
+                        font-style: italic; 
+                        color: #666; 
+                        margin: 20px 0; 
+                        padding: 15px;
+                        background: #f9f9f9;
+                        border-left: 4px solid #D32F2F;
+                    }
+                    .body { 
+                        line-height: 1.8; 
+                        color: #333;
+                    }
+                    .body img {
+                        max-width: 100%;
+                        height: auto;
+                        margin: 20px 0;
+                    }
+                    .preview-badge {
+                        background: #ff9800;
+                        color: white;
+                        padding: 5px 10px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        display: inline-block;
+                        margin-bottom: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="preview-container">
+                    <div class="preview-badge">PREVIEW MODE</div>
+                    <h1>${headline}</h1>
+                    ${summary ? `<div class="summary">${summary}</div>` : ''}
+                    <div class="body">${body}</div>
+                </div>
+            </body>
+            </html>
+        `);
+        previewWindow.document.close();
+    } catch (error) {
+        console.error('Preview error:', error);
+        alert('Error opening preview. Please check your browser settings.');
+    }
 }
+
 

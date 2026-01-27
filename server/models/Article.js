@@ -41,8 +41,6 @@ class Article {
                 headline, sub_headline, summary, body, slug,
                 featured_image_url, featured_image_caption, featured_image_alt, featured_image_credit,
                 category_id, author_id, language, location_tag, source_attribution,
-                featured_image_url, featured_image_caption, featured_image_alt, featured_image_credit,
-                category_id, author_id, language, location_tag, source_attribution,
                 seo_title || headline, seo_description || summary, is_opinion ? 1 : 0, reading_time, status, scheduled_publish_at
             ]
         );
